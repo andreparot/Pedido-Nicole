@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a0a2e">
+  <title>Para Nicole 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --rosa-claro: #ffd6e0;
+      --rosa-medio: #f8b4c4;
+      --rosa-escuro: #e891a6;
+      --lavanda: #e8d5f2;
+      --creme: #fff5f7;
+      --texto: #5c3d4a;
+      --sombra: rgba(92, 61, 74, 0.15);
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--texto);
+      background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 40%, #2d1b4e 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Céu estrelado */
+    .stars-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+
+    .star.small { width: 2px; height: 2px; }
+    .star.medium { width: 3px; height: 3px; }
+    .star.large { width: 4px; height: 4px; }
+
+    .star:nth-child(1) { left: 5%; top: 10%; animation-duration: 2s; animation-delay: 0s; }
+    .star:nth-child(2) { left: 15%; top: 25%; animation-duration: 2.5s; animation-delay: 0.3s; }
+    .star:nth-child(3) { left: 25%; top: 8%; animation-duration: 1.8s; animation-delay: 0.6s; }
+    .star:nth-child(4) { left: 35%; top: 40%; animation-duration: 2.2s; animation-delay: 0.1s; }
+    .star:nth-child(5) { left: 45%; top: 15%; animation-duration: 2.8s; animation-delay: 0.4s; }
+    .star:nth-child(6) { left: 55%; top: 55%; animation-duration: 2s; animation-delay: 0.7s; }
+    .star:nth-child(7) { left: 65%; top: 20%; animation-duration: 2.4s; animation-delay: 0.2s; }
+    .star:nth-child(8) { left: 75%; top: 35%; animation-duration: 1.9s; animation-delay: 0.5s; }
+    .star:nth-child(9) { left: 85%; top: 12%; animation-duration: 2.6s; animation-delay: 0.8s; }
+    .star:nth-child(10) { left: 92%; top: 45%; animation-duration: 2.1s; animation-delay: 0.3s; }
+    .star:nth-child(11) { left: 8%; top: 60%; animation-duration: 2.3s; animation-delay: 0.6s; }
+    .star:nth-child(12) { left: 22%; top: 70%; animation-duration: 1.7s; animation-delay: 0.1s; }
+    .star:nth-child(13) { left: 40%; top: 75%; animation-duration: 2.5s; animation-delay: 0.4s; }
+    .star:nth-child(14) { left: 58%; top: 80%; animation-duration: 2s; animation-delay: 0.9s; }
+    .star:nth-child(15) { left: 78%; top: 65%; animation-duration: 2.7s; animation-delay: 0.2s; }
+    .star:nth-child(16) { left: 12%; top: 85%; animation-duration: 1.8s; animation-delay: 0.5s; }
+    .star:nth-child(17) { left: 50%; top: 5%; animation-duration: 2.4s; animation-delay: 0.7s; }
+    .star:nth-child(18) { left: 88%; top: 72%; animation-duration: 2.2s; animation-delay: 0s; }
+    .star:nth-child(19) { left: 30%; top: 50%; animation-duration: 1.6s; animation-delay: 0.4s; }
+    .star:nth-child(20) { left: 70%; top: 88%; animation-duration: 2.6s; animation-delay: 0.3s; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Conteúdo */
+    .screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .screen.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .screen.hidden {
+      display: none !important;
+    }
+
+    /* Tela inicial e tela só SIM */
+    .message-box {
+      text-align: center;
+      max-width: 320px;
+      margin-bottom: 36px;
+    }
+
+    .message-box h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 600;
+      color: var(--creme);
+      line-height: 1.4;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .message-box p {
+      font-size: 1rem;
+      color: var(--lavanda);
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .buttons-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 100px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .btn {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 16px 36px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px var(--sombra);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-sim {
+      background: linear-gradient(135deg, var(--rosa-medio), var(--rosa-escuro));
+      color: #fff;
+      box-shadow: 0 6px 24px rgba(232, 145, 166, 0.4);
+    }
+
+    .btn-sim:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 28px rgba(232, 145, 166, 0.5);
+    }
+
+    .btn-nao {
+      background: linear-gradient(135deg, #a8a8c0, #8888a0);
+      color: #fff;
+      position: fixed;
+      z-index: 10;
+      transition: left 0.12s ease-out, top 0.12s ease-out;
+      touch-action: none;
+    }
+
+    .btn-nao:hover {
+      transform: scale(1.02);
+    }
+
+    /* Tela do SIM - sucesso */
+    .success-content {
+      max-width: 340px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .success-content .heart-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      color: var(--rosa-claro);
+      margin-bottom: 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.9; }
+    }
+
+    .poem-box {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: left;
+    }
+
+    .poem-box p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--creme);
+      margin-bottom: 12px;
+    }
+
+    .poem-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .song-quote {
+      font-style: italic;
+      color: var(--lavanda);
+      font-size: 0.95rem;
+      margin-top: 8px;
+      padding-left: 12px;
+      border-left: 3px solid var(--rosa-medio);
+    }
+
+    .song-quote small {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      opacity: 0.85;
+    }
+
+    /* Mini player */
+    .player {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 16px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      margin-top: 20px;
+    }
+
+    .player-info {
+      font-size: 0.9rem;
+      color: var(--lavanda);
+      margin-bottom: 12px;
+      min-height: 20px;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .player-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--rosa-medio), var(--rosa-escuro));
+      color: #fff;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 16px rgba(232, 145, 166, 0.35);
+    }
+
+    .player-btn:active {
+      transform: scale(0.92);
+    }
+
+    .player-btn.prev svg, .player-btn.next svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .player-btn.play-pause {
+      width: 56px;
+      height: 56px;
+      font-size: 1.5rem;
+    }
+
+    .player-volume {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    .player-volume svg {
+      width: 20px;
+      height: 20px;
+      color: var(--lavanda);
+      flex-shrink: 0;
+    }
+
+    .player-volume input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      max-width: 140px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    .player-volume input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rosa-medio), var(--rosa-escuro));
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(232, 145, 166, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .player-volume input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .player-volume input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--rosa-medio), var(--rosa-escuro));
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(232, 145, 166, 0.4);
+    }
+
+    .player-youtube-wrap {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto 14px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      aspect-ratio: 16 / 9;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .player-youtube-wrap iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .player-note {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 12px;
+    }
+
+    .success-sub {
+      font-size: 0.9rem;
+      color: var(--lavanda);
+      opacity: 0.9;
+      margin-top: 8px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars-container" id="stars"></div>
+
+  <!-- Tela inicial -->
+  <section class="screen active" id="screen-initial">
+    <div class="message-box">
+      <h1>Nicole, você aceita namorar comigo? 💕</h1>
+      <p>Eu te escolhi entre todas as estrelas do céu.</p>
+    </div>
+    <div class="buttons-wrap">
+      <button class="btn btn-sim" id="btn-sim-initial">SIM</button>
+      <button class="btn btn-nao" id="btn-nao">NÃO</button>
+    </div>
+  </section>
+
+  <!-- Tela só SIM (quando clica em NÃO) -->
+  <section class="screen" id="screen-only-sim">
+    <div class="message-box">
+      <h1>Sabia que ia voltar! 😊</h1>
+      <p>O “não” não combina com a gente. Clica no SIM?</p>
+    </div>
+    <div class="buttons-wrap">
+      <button class="btn btn-sim" id="btn-sim-only">SIM</button>
+    </div>
+  </section>
+
+  <!-- Tela do SIM - sucesso -->
+  <section class="screen" id="screen-success">
+    <div class="success-content">
+      <h2 class="heart-title">Eu te amo, Nicole! 💖</h2>
+      <div class="poem-box">
+        <p>Em noite de estrelas,<br>só penso em você.</p>
+        <p>Seu nome é a melodia que eu quero ouvir sempre que o mundo parar.</p>
+        <p class="song-quote">"Cada vez que eu te vejo, me descontrogo."<br><small>— Exagerado, Cazuza</small></p>
+        <p class="song-quote">"Loving can hurt, but it's the only thing that I know."<br><small>— Photograph, Ed Sheeran</small></p>
+        <p>Obrigado por aceitar. Vamos ser felizes juntos. 💕</p>
+      </div>
+      <p class="success-sub">Com amor, para a Nicole.</p>
+      <div class="player">
+        <div class="player-info" id="player-info">Escolha uma música</div>
+        <div class="player-youtube-wrap" id="yt-player-container"></div>
+        <div class="player-controls">
+          <button class="player-btn prev" id="btn-prev" title="Anterior" aria-label="Faixa anterior">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </button>
+          <button class="player-btn play-pause" id="btn-play" title="Play" aria-label="Play/Pause">
+            <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="28" height="28" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <button class="player-btn next" id="btn-next" title="Próxima" aria-label="Próxima faixa">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
+        </div>
+        <div class="player-volume">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          <input type="range" id="volume-slider" min="0" max="100" value="100" title="Volume" aria-label="Ajustar volume">
+        </div>
+        <p class="player-note">As músicas são reproduzidas pelo YouTube. Se aparecer erro ao tocar, abra o site por um link (ex.: publicar na web ou usar um servidor local).</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://www.youtube.com/iframe_api" async></script>
+  <script>
+    (function () {
+      // Criar estrelas
+      const container = document.getElementById('stars');
+      const sizes = ['small', 'small', 'small', 'medium', 'medium', 'large'];
+      for (let i = 0; i < 20; i++) {
+        const star = document.createElement('div');
+        star.className = 'star ' + sizes[i % sizes.length];
+        container.appendChild(star);
+      }
+
+      // Telas
+      const screenInitial = document.getElementById('screen-initial');
+      const screenOnlySim = document.getElementById('screen-only-sim');
+      const screenSuccess = document.getElementById('screen-success');
+
+      function showScreen(screen) {
+        [screenInitial, screenOnlySim, screenSuccess].forEach(s => {
+          s.classList.remove('active');
+          s.classList.add('hidden');
+        });
+        screen.classList.remove('hidden');
+        screen.classList.add('active');
+      }
+
+      // Botão NÃO que foge pela viewport, longe do SIM
+      const btnNao = document.getElementById('btn-nao');
+      const btnSim = document.getElementById('btn-sim-initial');
+      let noMoving = true;
+
+      function getViewport() {
+        const v = window.visualViewport;
+        return {
+          w: (v && v.width) ? v.width : window.innerWidth,
+          h: (v && v.height) ? v.height : window.innerHeight
+        };
+      }
+
+      function moveNao() {
+        if (!noMoving || !btnNao) return;
+        const vp = getViewport();
+        const pad = 16;
+        const minDistFromSim = 100;
+        const btnW = 88;
+        const btnH = 54;
+        const maxX = Math.max(0, vp.w - btnW - pad * 2);
+        const maxY = Math.max(0, vp.h - btnH - pad * 2);
+        if (maxX <= 0 || maxY <= 0) return;
+
+        var simRect = btnSim ? btnSim.getBoundingClientRect() : null;
+        var x = pad + Math.random() * maxX;
+        var y = pad + Math.random() * maxY;
+        for (var tentativa = 0; tentativa < 50; tentativa++) {
+          x = pad + Math.random() * maxX;
+          y = pad + Math.random() * maxY;
+          if (!simRect) break;
+          var cx = x + btnW / 2;
+          var cy = y + btnH / 2;
+          var simCx = simRect.left + simRect.width / 2;
+          var simCy = simRect.top + simRect.height / 2;
+          var dist = Math.sqrt((cx - simCx) * (cx - simCx) + (cy - simCy) * (cy - simCy));
+          if (dist >= minDistFromSim) break;
+        }
+
+        btnNao.style.left = x + 'px';
+        btnNao.style.top = y + 'px';
+      }
+
+      setInterval(moveNao, 220);
+      moveNao();
+      window.addEventListener('resize', moveNao);
+      if (window.visualViewport) window.visualViewport.addEventListener('resize', moveNao);
+
+      btnNao.addEventListener('click', function () {
+        showScreen(screenOnlySim);
+      });
+
+      document.getElementById('btn-sim-initial').addEventListener('click', function () {
+        showScreen(screenSuccess);
+        initPlayer();
+      });
+
+      document.getElementById('btn-sim-only').addEventListener('click', function () {
+        showScreen(screenSuccess);
+        initPlayer();
+      });
+
+      // Mini player com YouTube (Exagerado – Cazuza e Photograph – Ed Sheeran)
+      var tracks = [
+        { name: 'Exagerado – Cazuza', youtubeId: 'szts-5Zs5_8' },
+        { name: 'Photograph – Ed Sheeran', youtubeId: 'nSDgHBxUbVQ' }
+      ];
+      var currentTrack = 0;
+      var ytPlayer = null;
+      var playerInfo = document.getElementById('player-info');
+      var iconPlay = document.getElementById('icon-play');
+      var iconPause = document.getElementById('icon-pause');
+
+      function updatePlayerInfo() {
+        if (playerInfo && tracks[currentTrack]) playerInfo.textContent = tracks[currentTrack].name;
+      }
+
+      function loadYtTrack(index, playNow) {
+        currentTrack = (index + tracks.length) % tracks.length;
+        var id = tracks[currentTrack].youtubeId;
+        updatePlayerInfo();
+        if (!ytPlayer || !id) return;
+        ytPlayer.loadVideoById(id);
+        if (!playNow) ytPlayer.pauseVideo();
+      }
+
+      function setYtIframeReferrerPolicy() {
+        var container = document.getElementById('yt-player-container');
+        if (!container) return;
+        var iframe = container.querySelector('iframe');
+        if (iframe) {
+          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        }
+      }
+
+      function createYtPlayer() {
+        var container = document.getElementById('yt-player-container');
+        if (!container || !tracks.length) return;
+        var firstId = tracks[0].youtubeId;
+        var playerVars = {
+          enablejsapi: 1,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1
+        };
+        if (window.location.origin && window.location.protocol !== 'file:') {
+          playerVars.origin = window.location.origin;
+        }
+        ytPlayer = new YT.Player('yt-player-container', {
+          videoId: firstId,
+          width: '100%',
+          height: '100%',
+          playerVars: playerVars,
+          events: {
+            onReady: function () {
+              setYtIframeReferrerPolicy();
+              var vol = document.getElementById('volume-slider');
+              if (vol) ytPlayer.setVolume(parseInt(vol.value, 10));
+              updatePlayerInfo();
+            },
+            onStateChange: function (e) {
+              if (e.data === YT.PlayerState.PLAYING) {
+                if (iconPlay) iconPlay.style.display = 'none';
+                if (iconPause) iconPause.style.display = 'block';
+              } else {
+                if (iconPlay) iconPlay.style.display = 'block';
+                if (iconPause) iconPause.style.display = 'none';
+                if (e.data === YT.PlayerState.ENDED) {
+                  loadYtTrack(currentTrack + 1, true);
+                  if (ytPlayer) ytPlayer.playVideo();
+                }
+              }
+            }
+          }
+        });
+        setTimeout(setYtIframeReferrerPolicy, 0);
+        setTimeout(setYtIframeReferrerPolicy, 150);
+      }
+
+      function initPlayer() {
+        if (typeof initPlayer.done !== 'undefined') return;
+        initPlayer.done = true;
+
+        var volumeSlider = document.getElementById('volume-slider');
+        if (volumeSlider) {
+          volumeSlider.addEventListener('input', function () {
+            var v = parseInt(volumeSlider.value, 10);
+            if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(v);
+          });
+        }
+
+        document.getElementById('btn-play').addEventListener('click', function () {
+          if (!ytPlayer) return;
+          var state = ytPlayer.getPlayerState();
+          if (state === YT.PlayerState.PLAYING || state === 1) {
+            ytPlayer.pauseVideo();
+          } else {
+            ytPlayer.playVideo();
+          }
+        });
+
+        document.getElementById('btn-prev').addEventListener('click', function () {
+          loadYtTrack(currentTrack - 1, true);
+          if (ytPlayer) ytPlayer.playVideo();
+        });
+        document.getElementById('btn-next').addEventListener('click', function () {
+          loadYtTrack(currentTrack + 1, true);
+          if (ytPlayer) ytPlayer.playVideo();
+        });
+
+        if (window.YT && window.YT.Player) {
+          createYtPlayer();
+        } else {
+          window.onYouTubeIframeAPIReady = function () {
+            createYtPlayer();
+          };
+        }
+        updatePlayerInfo();
+      }
+    })();
+  </script>
+</body>
+</html>
